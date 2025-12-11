@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NSIC Event Registration API v2.0 | Developer Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom scrollbar for code blocks */
+        .code-scroll::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .code-scroll::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .code-scroll::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        .json-key { color: #9cdcfe; }
+        .json-string { color: #ce9178; }
+        .json-number { color: #b5cea8; }
+        .json-boolean { color: #569cd6; }
+        .json-null { color: #569cd6; }
+    </style>
+    <!-- Chosen Palette: Slate (Technical/Dark Mode compatible) with Indigo accents -->
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-indigo-200 selection:text-indigo-900">
+
+    <!-- Top Navigation -->
+    <nav class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                        <span class="text-2xl">🏗️</span>
+                        <span class="font-bold text-xl tracking-tight text-slate-900">Event Registration <span class="text-indigo-600">API</span></span>
+                    </div>
+                    <div class="hidden sm:ml-8 sm:flex sm:space-x-8">
+                        <a href="#overview" class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">API v2.0</a>
+                        <a href="#examples" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Examples</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        ● System Operational
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="lg:grid lg:grid-cols-12 lg:gap-8">
+            
+            <!-- Sidebar Navigation -->
+            <aside class="hidden lg:block lg:col-span-3">
+                <nav class="sticky top-24 space-y-1" aria-label="Sidebar">
+                    <a href="#overview" class="bg-indigo-50 text-indigo-700 group flex items-center px-3 py-2 text-sm font-medium rounded-md" aria-current="page">
+                        <span class="truncate">Overview</span>
+                    </a>
+                    <a href="#authentication" class="text-slate-600 hover:bg-slate-50 hover:text-slate-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
+                        <span class="truncate">Authentication</span>
+                    </a>
+                    <a href="#endpoint" class="text-slate-600 hover:bg-slate-50 hover:text-slate-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
+                        <span class="truncate">Endpoint Reference</span>
+                    </a>
+                    <a href="#parameters" class="text-slate-600 hover:bg-slate-50 hover:text-slate-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
+                        <span class="truncate">Query Parameters</span>
+                    </a>
+                    <a href="#examples" class="text-slate-600 hover:bg-slate-50 hover:text-slate-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
+                        <span class="truncate">Examples</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-9 space-y-12">
+
+                <!-- Overview Section -->
+                <section id="overview" class="space-y-6">
+                    <div>
+                        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Event Registration API <span class="text-indigo-600 text-2xl">v2.0</span></h1>
+                        <p class="mt-4 text-lg text-slate-600">
+                            Programmatically access event and project data within the NSIC system. Retrieve detailed information about events, risk assessments, CPD data, and project headers using standard REST patterns.
+                        </p>
+                    </div>
+
+                    <div class="bg-white rounded-lg border border-slate-200 shadow-sm p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <span class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Base URL</span>
+                            <div class="mt-1 flex items-center gap-2">
+                                <code class="bg-slate-100 px-3 py-1 rounded text-slate-800 font-mono text-sm">https://cicdev.service-now.com</code>
+                                <button onclick="copyToClipboard('https://cicdev.service-now.com')" class="text-slate-400 hover:text-indigo-600 transition-colors" title="Copy URL">
+                                    📋
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Format</span>
+                            <div class="mt-1">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-indigo-100 text-indigo-800">JSON</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Authentication Section -->
+                <section id="authentication" class="space-y-6 pt-8 border-t border-slate-200">
+                    <h2 class="text-2xl font-bold text-slate-900">Authentication & Headers</h2>
+                    <p class="text-slate-600">Access requires Basic Authentication (ServiceNow credentials) or OAuth tokens. The API expects standard JSON headers.</p>
+                    
+                    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+                        <table class="min-w-full divide-y divide-slate-300">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-6">Header</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Value</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 bg-white">
+                                <tr>
+                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-indigo-600 sm:pl-6">Content-Type</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500"><code class="bg-slate-100 px-1 py-0.5 rounded">application/json</code></td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500">Required media type.</td>
+                                </tr>
+                                <tr>
+                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-indigo-600 sm:pl-6">Accept</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500"><code class="bg-slate-100 px-1 py-0.5 rounded">application/json</code></td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-slate-500">Expected response format.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Endpoint Reference -->
+                <section id="endpoint" class="space-y-6 pt-8 border-t border-slate-200">
+                    <div class="flex items-center gap-3">
+                        <h2 class="text-2xl font-bold text-slate-900">Endpoint Definition</h2>
+                        <span class="px-2 py-1 rounded text-xs font-bold bg-green-100 text-green-700 border border-green-200">GET</span>
+                    </div>
+                    
+                    <div class="bg-slate-900 rounded-lg p-4 font-mono text-sm text-slate-300 flex justify-between items-center group">
+                        <span>/api/nsic/v2/event_registration/events</span>
+                        <button onclick="copyToClipboard('/api/nsic/v2/event_registration/events')" class="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-white">
+                            📋
+                        </button>
+                    </div>
+
+                    <div id="parameters" class="space-y-4">
+                        <h3 class="text-lg font-medium text-slate-900">Query Parameters</h3>
+                        <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                            <table class="min-w-full divide-y divide-slate-200">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider w-1/6">Parameter</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider w-1/12">Type</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider w-1/12">Required</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider w-1/2">Description</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider w-1/6">Default</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-slate-200">
+                                    <tr>
+                                        <td class="px-6 py-4 text-sm font-medium text-indigo-600 align-top">startDateTime</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">String</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">No</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">
+                                            <p>Filter records where <code>Created Date >= startDateTime</code>.</p>
+                                            <p class="mt-1 text-xs text-slate-400">Format: <code>YYYY-MM-DDThh:mm:ssZ</code></p>
+                                            <p class="mt-1 text-xs text-slate-400">Example: <code>2024-12-30T17:42:52Z</code></p>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">Today 00:00:00<br><span class="text-xs text-slate-400">(User Timezone)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 text-sm font-medium text-indigo-600 align-top">endDateTime</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">String</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">No</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">
+                                            <p>Filter records where <code>Created Date <= endDateTime</code>.</p>
+                                            <p class="mt-1 text-xs text-slate-400">Format: <code>YYYY-MM-DDThh:mm:ssZ</code></p>
+                                            <p class="mt-1 text-xs text-slate-400">Example: <code>2024-12-30T17:42:54Z</code></p>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">Today 23:59:59<br><span class="text-xs text-slate-400">(User Timezone)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 text-sm font-medium text-indigo-600 align-top">windowStart</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">Integer</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">No</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">
+                                            The starting offset for pagination.
+                                            <p class="mt-1 text-xs italic">Note: Use <code>windowStart</code> and <code>windowEnd</code> to handle large datasets.</p>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">None <span class="text-xs text-slate-400">(Returns all)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 text-sm font-medium text-indigo-600 align-top">windowEnd</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">Integer</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">No</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">The length/limit for pagination.</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">None <span class="text-xs text-slate-400">(Returns all)</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 text-sm font-medium text-indigo-600 align-top">active</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">Boolean</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">No</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">
+                                            Filter by active status (<code>true</code> or <code>false</code>). Case insensitive.
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">All records</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 text-sm font-medium text-indigo-600 align-top">projectType</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">String</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">No</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">
+                                            Filter by project type. Multiple values allowed (comma-separated).
+                                            <p class="mt-1 text-xs text-slate-400">Example: <code>event,work,project</code></p>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">event</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 text-sm font-medium text-indigo-600 align-top">state</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">String</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">No</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">
+                                            <p>Filter by project state. Multiple values allowed (comma-separated).</p>
+                                            <p class="mt-2 text-xs font-semibold text-slate-700">Supported Values:</p>
+                                            <ul class="list-disc list-inside text-xs text-slate-600 mt-1 space-y-0.5">
+                                                <li><code>pending</code></li>
+                                                <li><code>open</code></li>
+                                                <li><code>work_in_progress</code></li>
+                                                <li><code>closed_complete</code></li>
+                                                <li><code>closed_incomplete</code></li>
+                                                <li><code>risk_assessed</code></li>
+                                                <li><code>works_nature_endorsement</code></li>
+                                            </ul>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">closed_complete</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 text-sm font-medium text-indigo-600 align-top">assessmentCategory</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">String</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">No</td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">
+                                            <p>Filter by specific assessment category.</p>
+                                            <details class="mt-2 group">
+                                                <summary class="text-xs text-indigo-600 cursor-pointer font-medium hover:text-indigo-800 focus:outline-none">View Supported Categories</summary>
+                                                <div class="mt-2 p-3 bg-slate-50 rounded border border-slate-200 max-h-48 overflow-y-auto">
+                                                    <ul class="text-xs text-slate-600 space-y-1 font-mono">
+                                                        <li>cost</li>
+                                                        <li>council_reputation</li>
+                                                        <li>cybersecurity</li>
+                                                        <li>data_privacy</li>
+                                                        <li>eo_electrical_permanent</li>
+                                                        <li>eo_electrical_temporary</li>
+                                                        <li>eo_fire_service_permanent</li>
+                                                        <li>eo_fire_service_temporary</li>
+                                                        <li>eo_gov_lic_permanent</li>
+                                                        <li>eo_gov_lic_temporary</li>
+                                                        <li>eo_hvac_permanent</li>
+                                                        <li>eo_hvac_temporary</li>
+                                                        <li>eo_landscape_permanent</li>
+                                                        <li>eo_landscape_temporary</li>
+                                                        <li>eo_layout_permanent</li>
+                                                        <li>eo_layout_temporary</li>
+                                                        <li>eo_low_voltage_permanent</li>
+                                                        <li>eo_low_voltage_temporary</li>
+                                                        <li>eo_sewage_permanent</li>
+                                                        <li>eo_sewage_temporary</li>
+                                                        <li>eo_structure_permanent</li>
+                                                        <li>eo_structure_temporary</li>
+                                                        <li>eo_temporary</li>
+                                                        <li>facilitates</li>
+                                                        <li>human_resources</li>
+                                                        <li>it</li>
+                                                        <li>media</li>
+                                                        <li>resources</li>
+                                                        <li>safety</li>
+                                                        <li>schedule</li>
+                                                        <li>scope</li>
+                                                        <li>social_media</li>
+                                                        <li>strategy</li>
+                                                    </ul>
+                                                </div>
+                                            </details>
+                                        </td>
+                                        <td class="px-6 py-4 text-sm text-slate-500 align-top">None</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Example Request & Response -->
+                <section id="examples" class="space-y-6 pt-8 border-t border-slate-200">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-2xl font-bold text-slate-900">Example Request & Response</h2>
+                        <span class="text-sm text-slate-500">Standard usage pattern</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-8">
+                        <!-- Request Block -->
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-medium text-slate-900">Request (cURL)</h3>
+                            <div class="relative bg-slate-900 rounded-lg p-4 overflow-hidden group">
+                                <button onclick="copyToClipboard(document.getElementById('curl-code').innerText)" class="absolute top-2 right-2 text-slate-500 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity" title="Copy cURL">📋</button>
+                                <pre id="curl-code" class="text-sm text-slate-300 font-mono whitespace-pre-wrap break-all">curl --location --request GET 'https://cicdev.service-now.com/api/nsic/v2/event_registration/events?active=true&projectType=event,work&windowStart=0&windowEnd=10' \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+--header 'Authorization: Basic <credentials>'</pre>
+                            </div>
+                        </div>
+
+                        <!-- Response Block -->
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-medium text-slate-900">Response (JSON)</h3>
+                            <div class="bg-white rounded-lg border border-slate-200 shadow-sm flex flex-col h-[500px]">
+                                <div class="border-b border-slate-200 px-4 py-3 bg-slate-50 rounded-t-lg flex justify-between items-center">
+                                    <h3 class="text-sm font-medium text-slate-700">Status: <span class="text-green-600">200 OK</span></h3>
+                                </div>
+                                <div class="flex-1 overflow-auto bg-slate-900 p-4 code-scroll relative group">
+                                    <button onclick="copyResponse()" class="absolute top-2 right-2 text-slate-500 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity" title="Copy JSON">📋</button>
+                                    <pre id="json-response" class="font-mono text-sm text-slate-300"></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="pt-8 mt-12 border-t border-slate-200 text-center text-slate-500 text-sm pb-8">
+                    <p>&copy; 2025 NSIC Development Team. Internal Use Only.</p>
+                </footer>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. Utility Functions ---
+        async function copyToClipboard(text) {
+            // Try standard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    alert("Copied to clipboard!");
+                    return;
+                } catch (err) {
+                    console.warn("Clipboard API failed, trying fallback...", err);
+                }
+            }
+
+            // Fallback method for restricted environments (iframes/blobs)
+            try {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                textArea.style.top = "0";
+                
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                if (successful) {
+                    alert("Copied to clipboard!");
+                } else {
+                    throw new Error("execCommand returned false");
+                }
+            } catch (err) {
+                console.error("Copy failed:", err);
+                alert("Could not copy text. Please select and copy manually.");
+            }
+        }
+
+        function copyResponse() {
+            const text = document.getElementById('json-response').innerText;
+            copyToClipboard(text);
+        }
+
+        function syntaxHighlight(json) {
+            if (typeof json != 'string') {
+                 json = JSON.stringify(json, undefined, 2);
+            }
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'json-number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                    } else {
+                        cls = 'json-string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'json-null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+
+        // --- 2. Logic: Render Content ---
+        function renderExampleResponse() {
+            // Updated example structure as per user request
+            const exampleData = {
+              "result": [
+                {
+                  "eventHeader": {
+                    "division": "Corporate Services",
+                    "productOwner": {
+                      "name": "Ken Lam",
+                      "email": "kenhflam@cic.hk",
+                      "phone": null
+                    },
+                    "projectManager": {
+                      "name": "Ken Lam",
+                      "email": "kenhflam@cic.hk",
+                      "phone": null
+                    },
+                    "department": "HR",
+                    "englishName": "Briefing on Construction Innovation and Technology Fund (CITF) & Pre-approved Digitalisation Technologies (Part 1)",
+                    "chineseName": "「建造業創新及科技基金」及預先批核的數碼化科技(系列一) 簡介會 !@#$%^&*\"?/>",
+                    "description": "Webinar",
+                    "startDate": "2025-02-17T01:00:00Z",
+                    "setupStartDate": "2025-02-16T01:00:00Z",
+                    "endDate": "2025-02-17T11:00:00Z",
+                    "setupEndDate": "2025-02-16T11:00:00Z",
+                    "scale": "small",
+                    "targetInvitingGroups": null,
+                    "estimatedNumberOfParticipantsMin": "NaN",
+                    "estimatedNumberOfParticipantsMax": "NaN",
+                    "venue": "na",
+                    "cicSite": "",
+                    "venueSpecific": null,
+                    "deliveryMethodFaceToFace": false,
+                    "livestreamingOrLiveFeed": "zoom",
+                    "otherPlatform": null,
+                    "cantonese": false,
+                    "english": false,
+                    "putonghua": false,
+                    "mcArrangement": null,
+                    "internalMcName": null,
+                    "externalMcName": null,
+                    "performedBy": "undefined",
+                    "eventOrganiser": null,
+                    "eventContractor": null,
+                    "eventWebsite": null,
+                    "eventCoOrganiser": null,
+                    "contractorContact": null,
+                    "signUpUrl": null,
+                    "created": "2025-01-13T08:13:41Z",
+                    "createdBy": {
+                      "name": "Ken Lam",
+                      "email": "kenhflam@cic.hk",
+                      "phone": null
+                    },
+                    "updated": "2025-11-21T03:54:32Z",
+                    "updatedBy": {
+                      "name": "Rick Mok",
+                      "email": "rk@cic.com.hk",
+                      "phone": null
+                    }
+                  },
+                  "guestResponse": null,
+                  "guest": {
+                    "tentativeGohSpeakersGovtOfficials": false,
+                    "tentativeGohSpeakersGovtOfficialsAttendees": null,
+                    "councilCommitteeMembersPresence": false,
+                    "councilCommitteeMembersPresenceAttendees": null,
+                    "executiveDirectorsPresence": false,
+                    "executiveDirectorsPresenceAttendees": "default"
+                  },
+                  "mediaResponse": null,
+                  "media": {
+                    "mediaInvitationSendingDate": "",
+                    "pressReleaseSendingDate": ""
+                  },
+                  "socialMediaResponse": null,
+                  "socialMedia": {
+                    "numberOfPosts": "NaN",
+                    "facebook": false,
+                    "instagram": false,
+                    "linkedin": false,
+                    "wechat": false,
+                    "otherSocialMedia": false,
+                    "specificSocialMedia": null,
+                    "preferredDate": ""
+                  },
+                  "hrQuestionResponse": null,
+                  "hr": {
+                    "eventClassification": {
+                      "eventType": "Learning",
+                      "eventSeries": "Talks & Webinar",
+                      "eventDuration": "NaN"
+                    },
+                    "energisingEvent": true,
+                    "energising": {
+                      "energisingGroup": {
+                        "name": "Briefing on Construction Innovation and Technology Fund (CITF) & Pre-approved Digitalisation Technologies (Part 1)",
+                        "number": "PRJ0021690"
+                      },
+                      "energisingTheme": "Safety",
+                      "bonusPointIndicator": true
+                    },
+                    "cpd": {
+                      "enrolmentAndEvaluationInformation": {
+                        "reschedule": true,
+                        "specialEnrolmentPeriosStartDate": "2025-01-13",
+                        "specialEnrolmentPeriosEndDate": "2025-02-14",
+                        "evalutionForm": ""
+                      },
+                      "targetStaff": {
+                        "targetStaff": "all_staff",
+                        "teachingStaff": false,
+                        "organiserStaff": [],
+                        "trade": [
+                          ""
+                        ],
+                        "department": [
+                          ""
+                        ],
+                        "officer": [
+                          ""
+                        ],
+                        "includeStaff": [],
+                        "excludeStaff": []
+                      }
+                    }
+                  },
+                  "number": "PRJ0021868",
+                  "projectType": "Event",
+                  "state": "Closed Complete",
+                  "status": "Completed",
+                  "created": "2025-01-13T08:13:41Z",
+                  "createdBy": {
+                    "name": "Ken Lam",
+                    "email": "kenhflam@cic.hk",
+                    "phone": null
+                  },
+                  "updated": "2025-11-21T03:54:32Z",
+                  "updatedBy": {
+                    "name": "Rick Mok",
+                    "email": "rk@cic.com.hk",
+                    "phone": null
+                  },
+                  "closedAt": "2025-01-13T08:14:31Z",
+                  "closedBy": {
+                    "name": "Ken Lam",
+                    "email": "kenhflam@cic.hk",
+                    "phone": null
+                  },
+                  "risk": [
+                    {
+                      "riskCategory": "human_resources",
+                      "updated": "2025-07-16T03:12:53Z",
+                      "riskNumber": "RSK0002438",
+                      "updatedBy": {
+                        "name": "Rick Mok",
+                        "email": "rk@cic.com.hk",
+                        "phone": ""
+                      },
+                      "created": "2025-01-13T08:13:41Z",
+                      "riskStatus": "planned",
+                      "createdBy": {
+                        "name": "Ken Lam",
+                        "email": "kenhflam@cic.hk",
+                        "phone": ""
+                      },
+                      "suggestionsAndActions": "Approve",
+                      "assessment": null,
+                      "response": null,
+                      "details": null,
+                      "riskOwner": [
+                        {
+                          "name": "Ken Lam",
+                          "email": "kenhflam@cic.hk",
+                          "phone": ""
+                        }
+                      ],
+                      "assignedTo": {
+                        "name": "Ken Lam",
+                        "email": "kenhflam@cic.hk",
+                        "phone": ""
+                      },
+                      "dueDate": "",
+                      "assignmentGroup": {
+                        "value": "d7574e7197ead6100811bce8c253af4d",
+                        "display_value": "Risk SME - HR"
+                      },
+                      "riskStrategy": "accept"
+                    }
+                  ]
+                }
+              ]
+            };
+            document.getElementById('json-response').innerHTML = syntaxHighlight(exampleData);
+        }
+
+        // --- 3. Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderExampleResponse();
+        });
+
+    </script>
+</body>
+</html>
